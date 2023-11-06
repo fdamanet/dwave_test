@@ -53,11 +53,10 @@ ta = 20         # annealing time
 nreads = 1000   # number of experiments (jobs) and measurements
 sample = 1      # job's index
 
-
 #-------------------------------------------------------------------------------------------------------------
 #   Dwave calculations
 #-------------------------------------------------------------------------------------------------------------
-"""
+
 from dwave.system.samplers import DWaveSampler
 from dwave.system.composites import EmbeddingComposite
 # use DWaveSampler
@@ -74,7 +73,7 @@ print(response.info)
 fileObj = open('data_partitioning_ta='+str(ta)+'_sample='+str(sample)+'.obj', 'wb')
 pickle.dump(response,fileObj)
 fileObj.close()
-"""
+
 
 #-------------------------------------------------------------------------------------------------------------
 #   Import data and plots
@@ -109,7 +108,7 @@ for state in response.record:
     # compute energy
     energy = calculate_energy(solution, vartype='SPIN')
     # count up the times when the energy is zero
-    if energy == 0:
+    if energy == Energy.min():
         num_optimal_sol += num_oc
         optimal_sol.append(solution)
     # store the spin configuration found by Dwave
@@ -140,4 +139,4 @@ plt.grid()
 axes.legend(loc='upper center', bbox_to_anchor=(0.5, 1.45), ncol=1, fancybox=True, shadow=True)
 plt.xlim([5,2**(n-1)-1])
 plt.ylim([-2.5,150])
-plt.savefig('Histo_ta='+str(ta)+'.png', bbox_inches='tight')
+plt.savefig('Histo_partitioning_n='+str(n)+'_ta='+str(ta)+'.png', bbox_inches='tight')
